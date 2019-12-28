@@ -1,0 +1,28 @@
+{
+  "name": "image-compress-plugin",
+  "version": "0.0.1",
+  "description": "A webpack plugin for compress image use tinify & imagemin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "stonehank",
+  "license": "MIT",
+  "dependencies": {
+    "file-type": "^12.4.2",
+    "fs-extra": "^8.1.0",
+    "imagemin": "^7.0.1",
+    "imagemin-gifsicle": "^6.0.1",
+    "imagemin-jpegtran": "^6.0.0",
+    "imagemin-mozjpeg": "^8.0.0",
+    "imagemin-optipng": "^7.1.0",
+    "imagemin-pngquant": "^8.0.0",
+    "imagemin-svgo": "^7.0.0",
+    "is-svg": "^4.2.0",
+    "ora": "^4.0.3",
+    "slash": "^3.0.0",
+    "tinify": "^1.6.0-beta.2"
+  },
+  "devDependencies": {}
+}

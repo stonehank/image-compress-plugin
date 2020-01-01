@@ -137,7 +137,7 @@ class ImageCompressPlugin{
       })
   }
   png(buffer,forceImgmin){
-    if(this.availableNumber==null){
+    if(this.availableNumber==null && this.key){
       log(chalk.yellow('Waiting for tinify validate...'))
     }
     if(!forceImgmin && this.key){
@@ -159,7 +159,6 @@ class ImageCompressPlugin{
     return imageminGifsicle(this.gifsicleOpt)(buffer)
   }
   jpg(buffer,forceImgmin){
-    console.log(this.compressNumber,this.availableNumber)
     if(!forceImgmin && this.key){
       return Promise.all(this.tinifyValidate).then(()=>{
         if(this.compressNumber <= this.availableNumber){

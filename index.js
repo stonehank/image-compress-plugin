@@ -107,7 +107,7 @@ class ImageCompressPlugin{
   }
   exec(id,list,retry){
     if(id===list.length){
-      log(chalk.green('Total Save: '+ (this.totalSave / 1024).toFixed(2) + 'KB'))
+      log(chalk.green('Total Save: '+ this.appropriateSizeUnit(this.totalSave / 1024)))
       return Promise.resolve()
     }
     let resouceObj=list[id].obj
@@ -119,7 +119,7 @@ class ImageCompressPlugin{
         resouceObj._value=buffer
         let curSize=Buffer.byteLength(buffer)
         log(chalk.green(`Finished ${filename}  ${id+1}/${list.length}`))
-        log(chalk.blue('Before: ' +(prevSize/1024).toFixed(2)+'KB, After: '+(curSize/1024).toFixed(2) +  'KB, Save: '+((prevSize-curSize) / prevSize *100).toFixed(2)  +'%\n'))
+        log(chalk.blue('Before: ' +this.appropriateSizeUnit(prevSize/1024)+', After: '+this.appropriateSizeUnit(curSize/1024) +  ', Save: '+((prevSize-curSize) / prevSize *100).toFixed(2)  +'%\n'))
         this.totalSave+=prevSize-curSize
         return this.exec(id+1,list,0)
       })
@@ -192,5 +192,13 @@ class ImageCompressPlugin{
       },this.timeout*1000)
     })
   }
+  appropriateSizeUnit(num){
+    if(num<1024){
+      return num.toFixed(2)+'KB'
+    }else{
+      return (num/1024).toFixed(2)+'MB'
+    }
+  }
+
 }
 module.exports=ImageCompressPlugin

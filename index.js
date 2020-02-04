@@ -77,7 +77,7 @@ class ImageCompressPlugin{
   }
 
   apply(compiler) {
-    compiler.hooks.emit.tap(this.constructor.name, compilation => {
+    compiler.hooks.emit.tapAsync(this.constructor.name, (compilation ,callback)=> {
       try{
         outputPath=path.resolve(compilation.outputOptions.path,reportFilename)
       }catch(_){}
@@ -112,6 +112,9 @@ class ImageCompressPlugin{
         }
       }
       this.exec(0,this.needOptimizeArr,0)
+        .then(()=>{
+          callback()
+        })
     })
   }
   exec(id,list,retry){
@@ -122,13 +125,13 @@ class ImageCompressPlugin{
       }
       return Promise.resolve()
     }
-    let resouceObj=list[id].obj
+    let resourceObj=list[id].obj
     let resourceExt=list[id].ext
     let filename=list[id].filename
-    let prevSize=Buffer.byteLength(resouceObj._value)
-    return this[resourceExt](resouceObj._value,retry>=this.retry)
+    let prevSize=Buffer.byteLength(resourceObj._value)
+    return this[resourceExt](resourceObj._value,retry>=this.retry)
       .then((buffer) => {
-        resouceObj._value=buffer
+        resourceObj._value=buffer
         let curSize=Buffer.byteLength(buffer)
         this.echo(`Finished ${filename}  ${id+1}/${list.length}`,'green')
         this.echo('Before: ' +this.appropriateSizeUnit(prevSize/1024)+', After: '+this.appropriateSizeUnit(curSize/1024) +  ', Save: '+((prevSize-curSize) / prevSize *100).toFixed(2)  +'%\n','blue')
@@ -195,7 +198,12 @@ class ImageCompressPlugin{
       this.echo('Compress method tinify ---------------- ')
       this.compressNumber++
       let source=tinify.fromBuffer(buffer)
-      source.toBuffer().then((buffer)=>{
+      const resized=source.resize({
+        method: "fit",
+        width: 150,
+        height: 100
+      })
+      resized.toBuffer().then((buffer)=>{
         clearTimeout(this.timer)
         res(buffer)
       }).catch(()=>{})

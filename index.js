@@ -198,12 +198,7 @@ class ImageCompressPlugin{
       this.echo('Compress method tinify ---------------- ')
       this.compressNumber++
       let source=tinify.fromBuffer(buffer)
-      const resized=source.resize({
-        method: "fit",
-        width: 150,
-        height: 100
-      })
-      resized.toBuffer().then((buffer)=>{
+      source.toBuffer().then((buffer)=>{
         clearTimeout(this.timer)
         res(buffer)
       }).catch(()=>{})

@@ -1,6 +1,6 @@
 {
   "name": "image-compress-plugin",
-  "version": "0.0.4",
+  "version": "0.1.1",
   "description": "A webpack plugin for compress image use tinify & imagemin",
   "main": "index.js",
   "scripts": {

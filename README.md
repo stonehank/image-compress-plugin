@@ -35,7 +35,7 @@ module.exports={
 |:---|:---:|:---|
 |key|null|使用`tinify`压缩的API Key|
 |overwrite|true|是否覆盖原输出图片(图片源文件不受影响)|
-|affix|-cp|如果`overwrite`为true, 那么定义压缩后图片名称后缀|
+|affix|-cp|如果`overwrite`为false, 那么定义压缩后图片名称后缀|
 |pngquant|{}|使用`imagemin-pngquant`压缩`png`的[选项](https://github.com/imagemin/imagemin-pngquant)|
 |gifsicle|{colors:64}|使用`imagemin-gifsicle`压缩`gif`[选项](https://github.com/imagemin/imagemin-gifsicle)|
 |mozjpeg|{quality: 80}|使用`imagemin-mozjpeg`压缩`jpg,jpeg`等[选项](https://github.com/imagemin/imagemin-mozjpeg)|

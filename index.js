@@ -80,8 +80,10 @@ class ImageCompressPlugin{
     compiler.hooks.emit.tapAsync(this.constructor.name, (compilation ,callback)=> {
       try{
         outputPath=path.resolve(compilation.outputOptions.path,reportFilename)
-      }catch(_){}
-      fs.outputFileSync(outputPath,'')
+      }catch(_){
+        log(chalk.gold('Found error when get output path'))
+      }
+      if(this.report)fs.outputFileSync(outputPath,'')
       for(let filename in compilation.assets){
         if(compilation.assets.hasOwnProperty(filename)){
           if(compilation.assets[filename].constructor.name==='RawSource'){

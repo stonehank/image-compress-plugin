@@ -135,7 +135,7 @@ class ImageCompressPlugin{
       .then((buffer) => {
         let curSize=Buffer.byteLength(buffer)
         if(curSize >= prevSize){
-          this.echo(`Image ${filename} has been compress, no need to compress again.`)
+          this.echo(`Image ${filename} has been compress, no need to compress again ${id+1}/${list.length}.\n`)
         }else{
           resourceObj._value=buffer
           this.echo(`Finished ${filename}  ${id+1}/${list.length}`,'green')

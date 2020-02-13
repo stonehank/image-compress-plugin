@@ -81,7 +81,7 @@ class ImageCompressPlugin{
       try{
         outputPath=path.resolve(compilation.outputOptions.path,reportFilename)
       }catch(_){
-        log(chalk.gold('Found error when get output path'))
+        log(chalk.yellow('Found error when get output path'))
       }
       if(this.report)fs.outputFileSync(outputPath,'')
       for(let filename in compilation.assets){
@@ -133,11 +133,15 @@ class ImageCompressPlugin{
     let prevSize=Buffer.byteLength(resourceObj._value)
     return this[resourceExt](resourceObj._value,retry>=this.retry)
       .then((buffer) => {
-        resourceObj._value=buffer
         let curSize=Buffer.byteLength(buffer)
-        this.echo(`Finished ${filename}  ${id+1}/${list.length}`,'green')
-        this.echo('Before: ' +this.appropriateSizeUnit(prevSize/1024)+', After: '+this.appropriateSizeUnit(curSize/1024) +  ', Save: '+((prevSize-curSize) / prevSize *100).toFixed(2)  +'%\n','blue')
-        this.totalSave+=prevSize-curSize
+        if(curSize >= prevSize){
+          this.echo(`Image ${filename} has been compress, no need to compress again.`)
+        }else{
+          resourceObj._value=buffer
+          this.echo(`Finished ${filename}  ${id+1}/${list.length}`,'green')
+          this.echo('Before: ' +this.appropriateSizeUnit(prevSize/1024)+', After: '+this.appropriateSizeUnit(curSize/1024) +  ', Save: '+((prevSize-curSize) / prevSize *100).toFixed(2)  +'%\n','blue')
+          this.totalSave+=prevSize-curSize
+        }
         return this.exec(id+1,list,0)
       })
       .catch(err=>{
